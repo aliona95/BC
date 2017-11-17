@@ -1,0 +1,10 @@
+Studente Aliona Lisovskaja, KM, 4, 1. Data
+7 testas. Paskaitos pavyzdys
+1) Taisykles
+Z A // R1: A -> Z
+Z B // R2: B -> Z
+Z C // R3: C -> Z
+2) Faktai
+C
+3) Tikslas
+Z

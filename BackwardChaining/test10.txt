@@ -1,0 +1,12 @@
+Studente Aliona Lisovskaja, KM, 4, 1. Data
+10 testas.
+1) Taisykles
+Z Y D // R1: Y, D -> Z
+Y X B E // R2: X, B, E -> Y
+X A // R3: A -> X
+L C // R4: C -> L
+N L M // R5: L, M -> N
+2) Faktai
+A B C D E
+3) Tikslas
+Z
