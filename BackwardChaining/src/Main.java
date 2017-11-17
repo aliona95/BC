@@ -136,47 +136,29 @@ public class Main {
         for(int i = 0; i < productions.size(); i++) {
 
             if (!goal.empty()) {
-                //printDepth();
-                //System.out.println(goal.lastElement() + " " + newFacts);
                 if (noRules()) {
-                    System.out.print(++counter + ") ");
-                    printDepth();
-                    System.out.println("Tikslas " + goal.lastElement() + ". Nėra taisyklių jo išvedimui. Grįžtame, FAIL. " + usedRules);
+                    printInfo("Tikslas " + goal.lastElement() + ". Nėra taisyklių jo išvedimui. Grįžtame, FAIL. " + usedRules + "\n");
                     depthCounter--;
                     goal.pop();
-                    //tempGoal.push(goal.lastElement());
                 } else if (noMoreRules()) {
-                    //System.out.println(goal.lastElement() + " " + usedRules + " " + noMoreRules() + " facts " + newFacts);
-                    //System.out.println("Nera " + goal.lastElement());
-                    System.out.print(++counter + ") ");
-                    printDepth();
-                    System.out.println("Tikslas " + goal.lastElement() + ". Nėra daugiau taisyklių jo išvedimui. Grįžtame, FAIL. " + usedRules);
+                    printInfo("Tikslas " + goal.lastElement() + ". Nėra daugiau taisyklių jo išvedimui. Grįžtame, FAIL. " + usedRules + "\n");
                     goal.pop();
                     depthCounter--;
                     usedRules.pop();
                 } else if (facts.contains(goal.lastElement())) {
-                    System.out.print(++counter + ") ");
-                    printDepth();
-                    System.out.print("Tikslas " + goal.lastElement() + ". Faktas (duotas), nes faktai ");  printFacts(); System.out.println(". Grįžtame, sėkmė. " + usedRules);
+                    printInfo("Tikslas " + goal.lastElement() + ". Faktas (duotas), nes faktai ");  printFacts(); System.out.println(". Grįžtame, sėkmė. " + usedRules);
                     goal.pop();
                     usedRules.pop();
-                    //depthCounter--;
-                    //tempGoal.push(goal.lastElement());
+                    //depthCounter--; buvo dalinai gerai
                 } else if (newFacts.contains(goal.lastElement())) {
-                    System.out.print(++counter + ") ");
-                    printDepth();
-                    System.out.print("Tikslas " + goal.lastElement() + ". Faktas (dabar gautas). Faktai "); printFacts(); System.out.print(" ir "); printNewFacts();
-                    //tempGoal.push(goal.lastElement());
+                    printInfo("Tikslas " + goal.lastElement() + ". Faktas (dabar gautas). Faktai "); printFacts(); System.out.print(" ir "); printNewFacts();
                     System.out.println(usedRules);
                     goal.pop();
-                    //usedRules.pop();
+                    usedRules.pop();
                 } else if (goal.lastElement().equals(productions.get(i).getConsistent()) && !productions.get(i).getFlag1()) {
-                    System.out.print(++counter + ") ");
-                    printDepth();
-                    System.out.print("Tikslas " + goal.lastElement() + ". Randame R" + (i + 1) + ":" + productions.get(i).printAntecendents() + "->" + goal.lastElement() + ". ");
+                    printInfo("Tikslas " + goal.lastElement() + ". Randame R" + (i + 1) + ":" + productions.get(i).printAntecendents() + "->" + goal.lastElement() + ". ");
                     usedRules.push(i+1);
                     System.out.println("Nauji tikslai " + productions.get(i).printAntecendents() + ". " + usedRules);
-                    //System.out.println(goal);
                     tempGoal.push(goal.lastElement());
 
                     productions.get(i).setFlag1(true);
@@ -185,30 +167,20 @@ public class Main {
                     }
                     for (int j = 0; j < productions.get(i).getAntecedents().size(); j++) {
                         depthCounter++;
-                        /*if (newFacts.contains(goal.lastElement())){
-                            System.out.print(++counter +") ");
-                            printDepth();
-                            System.out.println("Tikslas " + goal.lastElement() + ". Buvo.");
-                            depthCounter--;
-                            goal.pop();
-                        } else */if (tempGoal.contains(productions.get(i).getAntecedents().get(j))){
+                        if (tempGoal.contains(productions.get(i).getAntecedents().get(j))){
                             tempGoal.push(goal.lastElement());// nebuvo ife
-                            System.out.print(++counter +") ");
-                            printDepth();
-                            System.out.println("Tikslas " + goal.lastElement() + ". Ciklas. Grįžtame, FAIL. " + usedRules);
+                            printInfo("Tikslas " + goal.lastElement() + ". Ciklas. Grįžtame, FAIL. " + usedRules + "\n");
                             depthCounter--;
                             goal.pop();
-                            //usedRules.pop();
-                        }else {// nebuvo else
+                        }else {
                             backwardChaining();
-
-                            depthCounter--;
+                            depthCounter--;  // dalinai gerai, kai cia uzkomentuota ir faktas duotas atkomentuota
                             newFacts.add(0, productions.get(i).getAntecedents().get(j));
                         }
                     }
                 }else{
-                    printDepth();
-                    System.out.println("Tikslas " + goal.lastElement() + " prod " + productions.get(i).getAntecedents() + " -> " + productions.get(i).getConsistent() + ", goal " + goal + ", facts " + newFacts);
+                    //printDepth();
+                    //System.out.println("Tikslas " + goal.lastElement() + " prod " + productions.get(i).getAntecedents() + " -> " + productions.get(i).getConsistent() + ", goal " + goal + ", facts " + newFacts + " " + usedRules);
                 }
             }
         }
@@ -251,15 +223,9 @@ public class Main {
         }
     }
 
-    public static boolean isCycle(int begin, int end){
-        if (productions.get(end).getAntecedents().size() == 1) {
-            for (int i = begin; i < end; i++) {
-                if (goal.lastElement().equals(productions.get(i).getConsistent())) {
-                    System.out.println(goal.lastElement() + " vs " + productions.get(i).getConsistent());
-                    return true;
-                }
-            }
-        }
-        return false;
+    public static void printInfo(String text){
+        System.out.print(++counter + ") ");
+        printDepth();
+        System.out.print(text);
     }
 }
