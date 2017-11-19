@@ -2,8 +2,8 @@ Studente Aliona Lisovskaja, KM, 4, 1. Data
 9 testas. Paskaitos pavyzdys
 1) Taisykles
 Z C D // R1: C, D -> Z
-Y C E // R2: C, E -> Y
+Y C E // R2: C, E -> A
 2) Faktai
-Y
+A
 3) Tikslas
-Y
+A
